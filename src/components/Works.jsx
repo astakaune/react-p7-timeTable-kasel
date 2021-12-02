@@ -1,9 +1,11 @@
 import Addwork from "./Addwork";
 import { Card, Table, Button } from "react-bootstrap";
 import React, { useState } from "react";
+import Work from "./Work";
 
-const Works = () => {
+const Works = (props) => {
 	const [addWork, setAddWork] = useState(false); //formos pridejimas
+	const [works, setWorks] = useState([]);
 
 	const addWorkHandler = () => {
 		setAddWork(true);
@@ -13,11 +15,22 @@ const Works = () => {
 		setAddWork(false);
 	};
 
+	const handleAddWork = (data) => {
+		//state  lift up
+		setWorks([...works, data]);
+		closeWorkHandler();
+		props.status(true);
+		// console.log(data);
+	};
+	console.log(works);
+
 	return (
 		<>
 			{/* //idedame forma, patikrine state */}
-			{/* 1 budas: {addwork && <Addwork/>}. 2budas: zemiau*/}
-			{addWork ? <Addwork /> : false}
+			{addWork && <Addwork setWorks={handleAddWork} />}
+			{/* 1 budas auksciau, 2budas: zemiau */}
+			{/* {addWork ? <Addwork /> : false} */}
+			{/* <Filter/> */}
 			<Card>
 				<Card.Header className="py-3">
 					{addWork ? (
@@ -45,27 +58,9 @@ const Works = () => {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
+							{works.map((work) => (
+								<Work key={work.i} date={work.date} company={work.company} service={work.service} description={work.description} startTime={work.startTime} endTime={work.endTime}/>
+							))}
 						</tbody>
 					</Table>
 				</Card.Body>
