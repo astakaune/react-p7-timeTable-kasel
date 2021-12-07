@@ -4,7 +4,7 @@ import services from "../data/services";
 function Services() {
 	return (
 		<>
-			<option>Choose service provided</option>
+			{/* <option>-Select service-</option> */}
 			{services.map((obj) => (
 				<Service key={obj.id} service={obj.service} />
 			))}

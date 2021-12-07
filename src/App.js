@@ -1,35 +1,30 @@
+import React, { useState, useEffect } from "react";
 import "./App.css";
-import Header from "./components/Header";
-import Addwork from "./components/Addwork";
-import Filter from "./components/Filter";
 import Works from "./components/Works";
-import { useEffect, useState } from "react";
-import { Alert } from "react";
+import Header from "./components/Header";
+import { Alert } from "react-bootstrap";
 
 function App() {
-	const [alertMessage, setAlertMessage] = useState(false);
+	const [message, setMessage] = useState(false);
 
-	const setAlertMessageHandler = (status) => {
+	const setMessageHandler = (status) => {
 		if (status) {
-			setAlertMessage("Task was added");
+			setMessage("successfully added");
 		}
-		// console.log(status);
+		console.log(status);
 	};
 
 	useEffect(() => {
 		setTimeout(() => {
-			setAlertMessage("");
-		}, 5000);
-	}, [alertMessage]);
+			setMessage("");
+		}, 3000);
+	}, [message]);
 
 	return (
-		<div className="Container">
+		<div className="container">
 			<Header />
-			{alertMessage && <Alert variant="success">{alertMessage}</Alert>}
-			<Addwork />
-			<Filter />
-			<Works />
-			<Works status={setAlertMessageHandler} />
+			{message ? <Alert variant="success">{message}</Alert> : ""}
+			<Works status={setMessageHandler} />
 		</div>
 	);
 }

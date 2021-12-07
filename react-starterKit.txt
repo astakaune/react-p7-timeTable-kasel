@@ -30,5 +30,11 @@ React savyje turi 2 folderius:
 3) Router idiegimas:
 	3.1. npm i react-router-dom
 
+4) DB Firebase:
+	- 
 
 
+Uses Sources:
+	https://firebase.google.com/?gclid=CjwKCAiAhreNBhAYEiwAFGGKPArEyNJvTauIXhHKcB-bhO1al1HMQixgP2qFr37cUX3MyXmuJBl51BoCWN8QAvD_BwE&gclsrc=aw.ds
+
+	

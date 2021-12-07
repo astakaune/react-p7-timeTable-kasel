@@ -1,10 +1,9 @@
-import React from "react";
-import { Card, Form, FloatingLabel } from "react-bootstrap";
-import Services from "./Services";
-import Companies from "./Companies";
 import { useState } from "react";
+import { Card, Form, Button, FloatingLabel } from "react-bootstrap";
+import Companies from "./Companies";
+import Services from "./Services";
 
-const Addwork = (props) => {
+function Addwork(props) {
 	const [items, setItems] = useState({
 		date: "",
 		company: "",
@@ -19,70 +18,67 @@ const Addwork = (props) => {
 			...items,
 			[e.target.name]: e.target.value,
 		});
-		// console.log(e.target.value); value = reiksme
-		// console.log(e.target.name); name = key
 	};
-	console.log(items);
 
 	const handleSubmit = (e) => {
-		e.preventdefault();
+		e.preventDefault();
 		props.setWorks(items);
 	};
 
 	return (
-		<>
-			<Card>
-				<Card.Header>Add completed task:</Card.Header>
-				<Card.Body>
-					<Form onSubmit={handleSubmit} />
-					<Form className="bg-light border">
-						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<Form.Label className="mt-1">Choose date:</Form.Label>
-							<Form.Control type="date" name="date" onChange={handleChange} value={items.date} />
-						</Form.Group>
+		<Card>
+			<Card.Header><h3>Add task</h3></Card.Header>
+			<Card.Body>
+				<Form onSubmit={handleSubmit}>
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Label>Date</Form.Label>
+						<Form.Control type="date" name="date" onChange={handleChange} value={items.date}/>
+					</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<Form.Select aria-label="Floating label select example" type="select" name="company" onChange={handleChange} value={items.company}>
-								<Companies />
-							</Form.Select>
-						</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+					<FloatingLabel className="mb-3" label="Select company">
+						<Form.Select  name="company" aria-label="Floating label select example" onChange={handleChange} value={items.company}>
+							<option>...</option>
+							<Companies />
+						</Form.Select>
+					</FloatingLabel>
+					</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<Form.Select aria-label="Floating label select example" type="select" name="service" onChange={handleChange} value={items.service}>
-								<Services />
-							</Form.Select>
-						</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+					<FloatingLabel className="mb-3" label="Select service">
+						<Form.Select  name="service" aria-label="Floating label select example" onChange={handleChange} value={items.service}>
+							<option>....</option>
+							<Services />
+						</Form.Select>
+					</FloatingLabel>
+					</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<FloatingLabel controlId="floatingTextarea2" label="Performed tasks description">
-								<Form.Control
-									as="textarea"
-									placeholder="Performed tasks description"
-									style={{ height: "100px" }}
-									type="textarea"
-									name="description"
-									onChange={handleChange} //patrigerinam veiksma
-									value={items.description} //atvaizduoja
-								/>
-							</FloatingLabel>
-						</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+					<FloatingLabel label="Task description">
+						<Form.Control style={{ height: "100px" }} name="description" as="textarea" placeholder="Leave a comment here" onChange={handleChange} value={items.description} />
+					</FloatingLabel>
+					</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<Form.Label>From:</Form.Label>
-							<Form.Control type="time" name="startTime" onChange={handleChange} value={items.startTime} />
-						</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Label>From:</Form.Label>
+						<Form.Control type="time" name="startTime" onChange={handleChange} value={items.startTime} />
+					</Form.Group>
 
-						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<Form.Label>Untill:</Form.Label>
-							<Form.Control type="time" name="endTime" onChange={handleChange} value={items.endTime} />
-						</Form.Group>
+					<Form.Group className="mb-3" controlId="formBasicEmail">
+						<Form.Label>Untill:</Form.Label>
+						<Form.Control type="time" name="endTime"  onChange={handleChange} value={items.endTime}/>
+					</Form.Group>
 
-						
-					</Form>
-				</Card.Body>
-			</Card>
-		</>
+					<Form.Group className="mb-3">
+					<Button  type="submit" className="button-css btn btn-success">
+						Save
+					</Button>
+					</Form.Group>
+
+				</Form>
+			</Card.Body>
+		</Card>
 	);
-};
+}
 
 export default Addwork;
