@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Form, Button, FloatingLabel, FormGroup } from "react-bootstrap";
 import Companies from "./Companies";
 import Services from "./Services";
@@ -7,6 +7,7 @@ const Filter = (props) => {
 	const [filter, setFilter] = useState({});
 
 	const handleFilter = (e) => {
+		//konst handleChange
 		setFilter({
 			...filter,
 			[e.target.name]: e.target.value,
@@ -14,19 +15,27 @@ const Filter = (props) => {
 	};
 	// console.log(filter);
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		props.handleFilter(filter);
+	// const handleSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	props.handleFilter(filter);
+	// };
+
+	const resetFilterHandler = () => {
+		setFilter({});
 	};
+
+	useEffect(() => {
+		props.handleFilter(filter);
+	}, [filter]);
 
 	return (
 		<div className="filters">
 			<Card>
 				<Card.Body>
-					<Form onSubmit={handleSubmit}>
-
+					{/* <Form onSubmit={handleSubmit}> */}
+					<Form>
 						<FormGroup>
-							<FloatingLabel label="Companies">
+							<FloatingLabel className="mb-3" label="Companies">
 								<Form.Select defaultValue="Company" onChange={handleFilter} name="company" aria-label="Floating label select example">
 									<Companies />
 								</Form.Select>
@@ -41,10 +50,15 @@ const Filter = (props) => {
 							</FloatingLabel>
 						</FormGroup>
 
-						<Form.Group controlId="formBasicEmail">
-							<Button type="submit" className="button-css btn btn-warning">
+						<Form.Group>
+							{/* <Button type="submit" className="button-css btn btn-warning">
 								Filter
-							</Button>
+							</Button> */}
+							{Object.keys(filter).length !== 0 && (
+								<Button type="reset" className="button-css btn btn-warning" onClick={resetFilterHandler}>
+									Reset
+								</Button>
+							)}
 						</Form.Group>
 					</Form>
 				</Card.Body>

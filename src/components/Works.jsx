@@ -6,19 +6,19 @@ import WorksTable from "./WorksTable";
 import * as services from "../services";
 
 export const WorkContext = React.createContext({
-	// workID: '',
-	// setWorkID: () => {
+	// workId: '',
+	// setWorkId: () => {
 	// }
 })
 
 function Works(props) {
-	const [workID, setWorkID] = useState('');
+	const [workId, setWorkId] = useState('');
 	const [addWork, setAddWork] = useState(false);
 	const [works, setWorks] = useState([]); //filterCriteria
-	const [filteredWorks, setFilteredWorks] = useState([]); //filteredList
+	const [filteredWorks, setFilteredWorks] = useState([]); //filteredList, searchResult
 	const value = useMemo(()=> ({
-			workID, setWorkID
-		}), [workID])
+			workId, setWorkId
+		}), [workId])
 
 	const addWorkHandler = () => {
 		//destytojo criteriaHandler
@@ -42,6 +42,12 @@ function Works(props) {
 		// console.log(worksList);
 	};
 
+	//apkeisti???
+	const onUpdateWorkHandler = (data,id) => {
+		services.updateWork(id, data)
+		setWorkId('') //dingsta forma
+	}
+
 	const handleFilter = (criteria) => {
 		//items - filterCriteria 	//dest criteriaHandler
 		const filteredItems = works.filter((item) => {
@@ -54,11 +60,13 @@ function Works(props) {
 	};
 
 	useEffect(() => {
+		// services.getAllWorks(works => setWorks(works));
 		services.getAllWorks(setWorks);
 	}, []);
 
 	console.log(works);
-	console.log(workID);
+	console.log(workId);
+
 	return (
 		<>
 			<Card>
@@ -80,7 +88,7 @@ function Works(props) {
 					)}
 				</Card.Header>
 
-				<Card.Header>{addWork && <Addwork setWorks={handleAddWork} />}</Card.Header>
+				<Card.Header>{(addWork || workId) && <Addwork handleAddWork={handleAddWork} update={workId} onUpdateWorkHandler={onUpdateWorkHandler} />}</Card.Header>
 
 				<Card.Header>
 					<h3>Task list:</h3>

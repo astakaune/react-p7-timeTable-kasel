@@ -24,9 +24,17 @@ const WorksTable = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{props.data.map((w, i) => (
-						// <Work id={i.id} date={i.date} company={i.company} service={i.service} description={i.description} startTime={i.startTime} endTime={i.endTime} />
-						<Work key={i} work={w} deleteW={deleteItemHandler} />
+					{props.data.map((work, index) => (
+						<Work
+							id={work.id}
+							date={work.date}
+							company={work.company}
+							service={work.service}
+							description={work.description}
+							startTime={work.startTime}
+							endTime={work.endTime}
+							delete={deleteItemHandler}
+						/>
 					))}
 				</tbody>
 			</Table>
