@@ -1,8 +1,7 @@
-import React from "react";
-import { Card, Form, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, Form, Button, FloatingLabel, FormGroup } from "react-bootstrap";
 import Companies from "./Companies";
 import Services from "./Services";
-import { useState } from "react";
 
 const Filter = (props) => {
 	const [filter, setFilter] = useState({});
@@ -15,40 +14,42 @@ const Filter = (props) => {
 	};
 	// console.log(filter);
 
-	const submitFilter = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
-		props.setFilter(filter);
+		props.handleFilter(filter);
 	};
+
 	return (
-		<Card>
-			<Card.Body>
-				<Form onSubmit={submitFilter}>
-					<Form.Group>
-						<Form.Select name="company" aria-label="Floating label select example" onChange={handleFilter}>
-							<option selected disabled>
-								-Select company-
-							</option>
-							<Companies />
-						</Form.Select>
-					</Form.Group>
+		<div className="filters">
+			<Card>
+				<Card.Body>
+					<Form onSubmit={handleSubmit}>
 
-					<Form.Group className="mt-2" controlId="formBasicEmail">
-						<Form.Select name="service" aria-label="Floating label select example" onChange={handleFilter}>
-							<option selected disabled>
-								-Select service-
-							</option>
-							<Services />
-						</Form.Select>
-					</Form.Group>
+						<FormGroup>
+							<FloatingLabel label="Companies">
+								<Form.Select defaultValue="Company" onChange={handleFilter} name="company" aria-label="Floating label select example">
+									<Companies />
+								</Form.Select>
+							</FloatingLabel>
+						</FormGroup>
 
-					<Form.Group className="mt-2" controlId="formBasicEmail">
-						<Button type="submit" className="button-css btn btn-warning">
-							Filter
-						</Button>
-					</Form.Group>
-				</Form>
-			</Card.Body>
-		</Card>
+						<FormGroup>
+							<FloatingLabel label="Services">
+								<Form.Select onChange={handleFilter} name="service" aria-label="Floating label select example">
+									<Services />
+								</Form.Select>
+							</FloatingLabel>
+						</FormGroup>
+
+						<Form.Group controlId="formBasicEmail">
+							<Button type="submit" className="button-css btn btn-warning">
+								Filter
+							</Button>
+						</Form.Group>
+					</Form>
+				</Card.Body>
+			</Card>
+		</div>
 	);
 };
 

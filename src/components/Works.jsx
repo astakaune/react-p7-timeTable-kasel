@@ -1,102 +1,101 @@
-import React from "react";
-import { useState } from "react";
-import { Button, Card, Table } from "react-bootstrap";
+import React, { useState, useEffect, useMemo } from "react";
+import { Button, Card } from "react-bootstrap";
 import Addwork from "./Addwork";
-import Work from "./Work";
 import Filter from "./Filter";
+import WorksTable from "./WorksTable";
+import * as services from "../services";
+
+export const WorkContext = React.createContext({
+	// workID: '',
+	// setWorkID: () => {
+	// }
+})
 
 function Works(props) {
+	const [workID, setWorkID] = useState('');
 	const [addWork, setAddWork] = useState(false);
-	const [works, setWorks] = useState([]);
-	const [filteredWorks, setFilteredWorks] = useState([]);
+	const [works, setWorks] = useState([]); //filterCriteria
+	const [filteredWorks, setFilteredWorks] = useState([]); //filteredList
+	const value = useMemo(()=> ({
+			workID, setWorkID
+		}), [workID])
 
 	const addWorkHandler = () => {
+		//destytojo criteriaHandler
 		setAddWork(true);
 	};
 
-	const closeFormHandler = () => {
+	const closeWorkHandler = () => {
+		//dest. cancelAddWorkHandler
 		setAddWork(false);
 	};
 
 	const handleAddWork = (data) => {
-		setWorks([...works, data]);
-		closeFormHandler();
+		//dest onSaveWorksData
+		services.addWork(data); //servises, kvieciame aprasyta funkcija addWork ir i ja paduodame duomenis data
+		// setWorksList((prevData) => { //callback state setinimui
+		// 	return [data, ...prevData]; //returninam kaip masyva, pridedam data prie ankstesniu elementu. reikalinga duomenu papildymui
+		// });
+		closeWorkHandler();
 		props.status(true);
+		console.log(data)
+		// console.log(worksList);
 	};
 
-	const handleFilter = (items) => {
+	const handleFilter = (criteria) => {
+		//items - filterCriteria 	//dest criteriaHandler
 		const filteredItems = works.filter((item) => {
-			return Object.keys(items).every((filter) => {
-				return items[filter] === item[filter];
+			return Object.keys(criteria).every((filter) => {
+				return criteria[filter] === item[filter];
 			});
 		});
-		setFilteredWorks(filteredItems);
-		console.log(filteredItems);
+		setFilteredWorks(filteredItems); //dest setFilterCriteria(criteria)
+		console.log("filteredItems", filteredItems);
 	};
 
+	useEffect(() => {
+		services.getAllWorks(setWorks);
+	}, []);
+
+	console.log(works);
+	console.log(workID);
 	return (
 		<>
-			{addWork && <Addwork setWorks={handleAddWork} />}
 			<Card>
 				<Card.Header>
 					{addWork ? (
-						<Button className="button-css btn btn-danger" onClick={closeFormHandler}>
+						<Button className="button-css btn btn-danger" onClick={closeWorkHandler}>
 							Cancel
 						</Button>
 					) : (
-						<Button className="button-css btn btn-info" onClick={addWorkHandler}>
+						<Button
+							className="button-css btn btn-info"
+							onClick={addWorkHandler}
+							// onClick={() => {
+							// 	setAddWork(true);
+							// }}
+						>
 							Add Task
 						</Button>
 					)}
 				</Card.Header>
 
+				<Card.Header>{addWork && <Addwork setWorks={handleAddWork} />}</Card.Header>
+
 				<Card.Header>
 					<h3>Task list:</h3>
 				</Card.Header>
 
-				<Card.Body>
-					<Table striped bordered hover>
-						<thead>
-							<tr>
-								<th>Date</th>
-								<th>Company</th>
-								<th>Service</th>
-								<th>Description</th>
-								<th>Duration</th>
-							</tr>
-						</thead>
-						<tbody>
-							{filteredWorks.length
-								? filteredWorks.map((work, i) => (
-										<Work
-											key={work.i}
-											date={work.date}
-											company={work.company}
-											service={work.service}
-											description={work.description}
-											startTime={work.startTime}
-											endTime={work.endTime}
-										/>
-								  ))
-								: works.map((work) => (
-										<Work
-											key={work.i}
-											date={work.date}
-											company={work.company}
-											service={work.service}
-											description={work.description}
-											startTime={work.startTime}
-											endTime={work.endTime}
-										/>
-								  ))}
-						</tbody>
-					</Table>
-				</Card.Body>
-
 				<Card.Header>
-					<Filter setFilter={handleFilter} />
+					<Filter handleFilter={handleFilter} />
 				</Card.Header>
-				
+
+				<Card.Body>
+					<WorkContext.Provider value={value}>
+					{/* <WorksTable data={(Object.keys(filterCriteria).length)?filteredItems(filterCriteria):timesList}/> destytojo */}
+					<WorksTable data={filteredWorks.length ? filteredWorks : works} />
+					</WorkContext.Provider>
+				</Card.Body>
 			</Card>
 		</>
 	);

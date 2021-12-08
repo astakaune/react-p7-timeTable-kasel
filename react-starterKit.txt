@@ -31,10 +31,33 @@ React savyje turi 2 folderius:
 	3.1. npm i react-router-dom
 
 4) DB Firebase:
-	- 
+	- stabiliai veikia 8 versija su subversijomis: npm install firebase @8.2.8
+	- src/firebase.js => darbui su firebase naudojant firestore:
+			import firebase from 'firebase/app';
+			import 'firebase/firestore';
+			https://console.firebase.google.com/u/5/project/timetable-c86bc/overview duota config:
+				const firebaseConfig = {
+				apiKey: "AIzaSyDyvBbacx55XxD2hv6nCK_FwIIm31H4OzY",
+				authDomain: "timetable-c86bc.firebaseapp.com",
+				projectId: "timetable-c86bc",
+				storageBucket: "timetable-c86bc.appspot.com",
+				messagingSenderId: "49976210526",
+				appId: "1:49976210526:web:9492018845365905d0f0cf",
+				measurementId: "G-W4VECJQKHM"
+				};
+				// Initialize Firebase
+				const app = initializeApp(firebaseConfig);
+				const analytics = getAnalytics(app);
+	- .gitignore => /firebase.js
+	- DB kūrimas:
+		https://console.firebase.google.com/u/5/project/timetable-c86bc/overview
+		Build/ Firestore Database --> Cloud Firestore/ Start collection => Collection ID - proj.pavadinimas/ 
+			DocumentID - press; 
+			Fields (from the project): date - string, company - string, service - string, description- string, startTime - string, endTime- string.
+		
 
 
 Uses Sources:
-	https://firebase.google.com/?gclid=CjwKCAiAhreNBhAYEiwAFGGKPArEyNJvTauIXhHKcB-bhO1al1HMQixgP2qFr37cUX3MyXmuJBl51BoCWN8QAvD_BwE&gclsrc=aw.ds
+	https://firebase.google.com/gclid=CjwKCAiAhreNBhAYEiwAFGGKPArEyNJvTauIXhHKcB-bhO1al1HMQixgP2qFr37cUX3MyXmuJBl51BoCWN8QAvD_BwE&gclsrc=aw.ds
 
-	
+	npm install react-bootstrap-icons

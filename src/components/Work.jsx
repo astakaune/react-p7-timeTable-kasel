@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+// import { Form, Button } from "react-bootstrap";
+import {Pencil, Trash } from "react-bootstrap-icons";
+import {WorkContext} from "./Works";
 
 function Work(props) {
+	// function Work({ work, deleteW }) { Konstantino
+	const { workID, setWorkID } = useContext(WorkContext);
+
 	const diff = (start, end) => {
 		// start = props.timeFrom;
 		// end = props.timeTo;
@@ -16,6 +22,13 @@ function Work(props) {
 		return (hours < 9 ? "0" : "") + hours + ":" + (minutes < 9 ? "0" : "") + minutes;
 	};
 
+	const getIdHandler = () => {
+		props.delete(props.id);
+	};
+
+	const getIDUpdateHandler = () => {
+		setWorkID(props.id);
+	};
 	return (
 		<tr>
 			<td>{props.date}</td>
@@ -23,6 +36,32 @@ function Work(props) {
 			<td>{props.service}</td>
 			<td>{props.description}</td>
 			<td>{diff(props.startTime, props.endTime)}</td>
+			<td>
+				<a href="#/" onCLick={getIDUpdateHandler}>
+					<Pencil />
+				</a>
+			</td>
+			<td>
+				<a href="#/" onCLick={getIdHandler}>
+					<Trash />
+				</a>
+			</td>
+
+			{/* <td>
+				<Form.Group>
+					<Button type="submit" className="button-css btn btn-secondary" onCLick={getIDUpdateHandler}>
+						<Pencil />
+						Edit
+					</Button>
+				</Form.Group>
+			</td>
+			<td>
+				<Form.Group>
+					<Button type="submit" className="button-css btn btn-warning" onClick={getIdHandler}>
+						Delete
+					</Button>
+				</Form.Group>
+			</td> */}
 		</tr>
 	);
 }

@@ -6,4 +6,18 @@
 th {
   text-align: center;
 }
+
+.filters form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.filters form div,
+.filters form button {
+  margin: 5px;
+}
 /*# sourceMappingURL=index.css.map */
